@@ -1,24 +1,24 @@
 const express = require("express");
-const cors = require("cors");
 const knex = require('knex')({
-    client: 'sqlite3', // or 'better-sqlite3'
+    client: 'sqlite3',
     connection: {
-      filename: "./database/frexco.db"
+      filename: "./frexco.db"
     }
-});
+  });
 
 const app = express();
 
-app.use(express.static('public'));
-
-app.get("/",(req,res) => {
-  
-});
-
-app.get("/getStock", (req,res) => {
-  knex.select('*').from('stock').then(data =>{
-    console.log(data);
-  });
+app.post('/mamou', (req, res) =>{
+    console.log("Connected to React")
+    res.redirect('/');
 })
 
-app.listen(3000);
+app.post("/consultStock",(req,res) => {
+  knex.select('*').from('stock').then(data =>{
+    console.log(data);
+  })
+});
+
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, console.log("Server running on port: "+PORT));
