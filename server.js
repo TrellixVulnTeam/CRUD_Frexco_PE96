@@ -2,20 +2,21 @@ const express = require("express");
 const knex = require('knex')({
     client: 'sqlite3',
     connection: {
-      filename: "./frexco.db"
+      filename: "./database/frexco.db"
     }
   });
 
 const app = express();
 
-app.post('/mamou', (req, res) =>{
+app.post('/test', (req, res) =>{
     console.log("Connected to React")
     res.redirect('/');
 })
 
-app.post("/consultStock",(req,res) => {
-  knex.select('*').from('stock').then(data =>{
-    console.log(data);
+app.post("/consProd",(req,res) => {
+  let nome = req.body.nome;
+  knex.select('*').from('stock').where('product_name', nome).then(function(data) {
+    res.send(data);
   })
 });
 
